@@ -1,3 +1,4 @@
+package Pre_Entrega;
 
 // Clase base Articulo con encapsulamiento
 public class Producto {

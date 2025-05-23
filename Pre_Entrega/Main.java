@@ -1,3 +1,4 @@
+package Pre_Entrega;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -52,40 +53,39 @@ static void crearProducto() {
         entradaId = sc.nextLine();
 
         if (!esEntero(entradaId)) {
-            System.out.println("⚠️ El ID debe ser un número entero.");
-            continue; // pedir de nuevo
+            System.out.println("El ID debe ser un número entero");
+            continue;
         }
 
         id = Integer.parseInt(entradaId);
 
         if (buscarProductoPorId(id) != null) {
-            System.out.println("⚠️ El ID ya existe. Ingrese otro.");
-            continue; // pedir de nuevo
+            System.out.println("El ID ya existe. Ingrese otro ID");
+            continue; 
         }
 
         break; // ID válido y único
     }
-
-    // Pedir nombre (podés agregar validación si querés)
+    // no hay validacion en nombre, aun
     System.out.print("Nombre: ");
     String nombre = sc.nextLine();
 
-    // Validar precio decimal y positivo
+    // Validar so el precio es decimal y positivo
     double precio = 0.0;
     while (true) {
         System.out.print("Precio: ");
         String entradaPrecio = sc.nextLine();
 
         if (!esDecimal(entradaPrecio)) {
-            System.out.println("⚠️ El precio debe ser un número válido.");
-            continue; // pedir de nuevo
+            System.out.println("El precio debe ser un número válido.");
+            continue;
         }
 
         precio = Double.parseDouble(entradaPrecio);
 
         if (precio <= 0) {
-            System.out.println("⚠️ El precio debe ser mayor que cero.");
-            continue; // pedir de nuevo
+            System.out.println("El precio debe ser mayor que cero.");
+            continue; // pedido de nuevo
         }
 
         break; // precio válido
@@ -94,12 +94,12 @@ static void crearProducto() {
     // Crear y agregar producto
     Producto nuevo = new Producto(id, nombre, precio);
     lista.add(nuevo);
-    System.out.println("✅ Producto agregado correctamente.");
+    System.out.println("Producto agregado correctamente");
 }
 
     public static void listarProductos() {
         if (lista.isEmpty()) {
-            System.out.println("No hay productos cargados.");
+            System.out.println("No hay productos cargados");
         } else {
             for (Producto p : lista) {
                 p.mostrar();
