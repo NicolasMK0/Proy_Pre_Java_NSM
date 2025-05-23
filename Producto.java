@@ -1,13 +1,13 @@
 
 // Clase base Articulo con encapsulamiento
-public class Articulo {
+public class Producto {
     // Atributos privados para aplicar el principio de encapsulamiento
     private int id;
     private String nombre;
     private double precio;
 
     // Constructor para inicializar el objeto Articulo
-    public Articulo(int id, String nombre, double precio) {
+    public Producto(int id, String nombre, double precio) {
         this.id = id;               // 'this' refiere al atributo del objeto
         this.nombre = nombre;
         this.precio = precio;
