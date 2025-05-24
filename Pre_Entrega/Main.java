@@ -1,6 +1,5 @@
 package Pre_Entrega;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -108,22 +107,63 @@ static void crearProducto() {
         }
     }
 
-    public static void modificarProducto() {
-        System.out.print("ID del producto a modificar: ");
-        int id = sc.nextInt();
-        for (Producto producto : lista) {
-            if (producto.getId() == id) {
-                sc.nextLine();
-                System.out.print("Nuevo nombre: ");
-                producto.setNombre(sc.nextLine());
-                System.out.print("Nuevo precio: ");
-                producto.setPrecio(sc.nextDouble());
-                System.out.println("Producto actualizado.");
-                return;
-            }
-        }
-        System.out.println("Producto no encontrado.");
+public static void modificarProducto() {
+    if (lista.isEmpty()) {
+        System.out.println("No hay productos para modificar.");
+        return;
     }
+    int id;
+    String entradaId;
+
+    // Validar ID con esEntero y existencia
+    while (true) {
+        System.out.print("ID del producto a modificar [0 para salir]: ");
+        entradaId = sc.nextLine();
+        if (!esEntero(entradaId)) {
+            System.out.println("El ID debe ser un número entero.");
+            continue;
+        }
+        id = Integer.parseInt(entradaId);
+        if (id == 0) {
+            System.out.println("Modificación cancelada.");
+            return;
+        }
+        if (id < 0) {
+            System.out.println("El ID debe ser mayor o igual a cero.");
+            continue;
+        }
+        if (buscarProductoPorId(id) == null) {
+            System.out.println("El producto con ese ID no existe.");
+            continue;
+        }
+        break;
+    }
+    Producto producto = buscarProductoPorId(id);
+    System.out.print("Nuevo nombre: ");
+    String nuevoNombre = sc.nextLine();
+    String entradaPrecio;
+    double nuevoPrecio;
+
+    // Validar precio con esDecimal y valor positivo
+    while (true) {
+        System.out.print("Nuevo precio: ");
+        entradaPrecio = sc.nextLine();
+        if (!esDecimal(entradaPrecio)) {
+            System.out.println("El precio debe ser un número válido.");
+            continue;
+        }
+        nuevoPrecio = Double.parseDouble(entradaPrecio);
+        if (nuevoPrecio <= 0) {
+            System.out.println("El precio debe ser mayor que cero.");
+            continue;
+        }
+        break;
+    }
+    producto.setNombre(nuevoNombre);
+    producto.setPrecio(nuevoPrecio);
+    System.out.println("Producto actualizado correctamente.");
+}
+
 
 public static void eliminarProducto() {
     listarProductos();
@@ -134,37 +174,37 @@ public static void eliminarProducto() {
 
     while (true) {
         System.out.print("ID del Producto a eliminar [0 para salir]: ");
-        // otro try catch
-        // para verificar si el id es un entero
-        try {
-            int id = sc.nextInt();
-            sc.nextLine();
+        String entrada = sc.nextLine();
 
-            if (id == 0) {
-                System.out.println("Saliendo...");
-                return;
-            }
-
-            if (id < 0) {
-                System.out.println("El ID debe ser mayor o igual a 0.");
-                continue;
-            }
-
-            if (lista.stream().noneMatch(p -> p.getId() == id)) {
-                System.out.println("Ese ID no existe. Intentá de nuevo.");
-                continue;
-            }
-
-            lista.removeIf(p -> p.getId() == id);
-            System.out.println("Producto eliminado.");
-            break;
-
-        } catch (InputMismatchException e) {
+        // Usar auxiliar esEntero para validar
+        if (!esEntero(entrada)) {
             System.out.println("Ingresa un número válido.");
-            sc.nextLine(); 
+            continue;
         }
+
+        int id = Integer.parseInt(entrada);
+
+        if (id == 0) {
+            System.out.println("Saliendo...");
+            return;
+        }
+
+        if (id < 0) {
+            System.out.println("El ID debe ser mayor o igual a 0.");
+            continue;
+        }
+
+        if (lista.stream().noneMatch(p -> p.getId() == id)) {
+            System.out.println("Ese ID no existe. Intentá de nuevo.");
+            continue;
+        }
+
+        lista.removeIf(p -> p.getId() == id);
+        System.out.println("Producto eliminado.");
+        break;
     }
 }
+
 
 
 // AXIlIARES (no se cuantos voy a necesitar)
