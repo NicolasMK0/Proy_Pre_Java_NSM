@@ -1,5 +1,6 @@
 package Pre_Entrega;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -124,12 +125,47 @@ static void crearProducto() {
         System.out.println("Producto no encontrado.");
     }
 
-    public static void eliminarProducto() {
-        System.out.print("ID del producto a eliminar: ");
-        int id = sc.nextInt();
-        lista.removeIf(p -> p.getId() == id);
-        System.out.println("Producto eliminado si existía.");
+public static void eliminarProducto() {
+    listarProductos();
+    if (lista.isEmpty()) {
+        System.out.println("No presentas productos para eliminar.");
+        return;
     }
+
+    while (true) {
+        System.out.print("ID del Producto a eliminar [0 para salir]: ");
+        // otro try catch
+        // para verificar si el id es un entero
+        try {
+            int id = sc.nextInt();
+            sc.nextLine();
+
+            if (id == 0) {
+                System.out.println("Saliendo...");
+                return;
+            }
+
+            if (id < 0) {
+                System.out.println("El ID debe ser mayor o igual a 0.");
+                continue;
+            }
+
+            if (lista.stream().noneMatch(p -> p.getId() == id)) {
+                System.out.println("Ese ID no existe. Intentá de nuevo.");
+                continue;
+            }
+
+            lista.removeIf(p -> p.getId() == id);
+            System.out.println("Producto eliminado.");
+            break;
+
+        } catch (InputMismatchException e) {
+            System.out.println("Ingresa un número válido.");
+            sc.nextLine(); 
+        }
+    }
+}
+
 
 // AXIlIARES (no se cuantos voy a necesitar)
 // Verifica si es un entero válido
